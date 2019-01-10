@@ -1,28 +1,30 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: 'vue-coe-styled',
+
+  data () {
+    return { color: 'red' }
+  },
+
+  style (vm) {
+    const title = vm => vm.color
+
+    return { '--title': title(vm) }
+  },
+
+  render (h) {
+    const title = h('h1', { style: (this.$options.style(this)) }, 'coe')
+
+    const input = [ h('input', {
+      domProps: { value: this.color },
+      on: { input: event => { this.color = event.target.value } }
+    }) ]
+
+    return h('div', { attrs: { id: 'app' } }, [ title, input ])
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+h1 { color: var(--title); }
 </style>
